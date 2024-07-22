@@ -2,32 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+html, body {
+  background-color: #1a202c; /* Equivalent to gray.900 */
+  color: rgba(255, 255, 255, 0.8); /* Equivalent to whiteAlpha.800 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+svg {
+  cursor: pointer;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.table {
+  border: 1px solid #424242;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */
+.tr {
+  display: flex;
+  width: fit-content;
+}
+
+.th, .td {
+  box-shadow: inset 0 0 0 1px #424242;
+}
+
+.th {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a0aec0; /* Equivalent to gray.400 */
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 0.75rem; /* Equivalent to xs */
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.td > input {
+  margin: 1;
+  padding: 0.2rem;
+  background: transparent;
+  max-width: 100%;
+}
+
+.date-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.resizer {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 5px;
+  background: #27bbff;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  border-radius: 6px;
+}
+
+.resizer.isResizing {
+  background: #2eff31;
+  opacity: 1;
+}
+
+*:hover > .resizer {
+  opacity: 1;
+}

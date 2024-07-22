@@ -1,9 +1,9 @@
 import { User } from '@/types';
 import React from 'react';
 
-const UserCard = (props: { user: User }) => {
+const UserCard = (props: { user: User , onClick: (user: User) => void}) => {
   return (
-    <div key={props.user.id}>
+    <div key={props.user.id} onClick={() => props.onClick(props.user)}>
       <a
         href="#"
         className="mt-4 block max-w-sm rounded-lg bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"

@@ -13,6 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://kit.fontawesome.com/a95ba240bf.js" ></script>
+
+      </head>
       <body>
         <ReactQueryProvider>
           <main>{children}</main>

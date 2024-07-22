@@ -8,6 +8,7 @@ import {
 
 import { User } from '@/types';
 import UserCard from '@/components/UserCard';
+import { useRouter } from 'next/navigation';
 
 const getUsers = async (): Promise<User[]> => {
   const response = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -19,6 +20,11 @@ const Users = () => {
     queryKey: ['users'],
     queryFn: getUsers,
   });
+  const router = useRouter()
+
+  const redirectToProfilePage = (user: User) => {
+    router.push(`/users/${user.id}`);
+  }
 
   if (isLoading) return <div>Loading users...</div>;
 
@@ -28,7 +34,7 @@ const Users = () => {
     <>
       <h3 className="mb-2 mt-5 text-center text-4xl font-extrabold">Users</h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data?.map((user: User) => <UserCard key={user.id} user={user} />)}
+        {data?.map((user: User) => <UserCard onClick={redirectToProfilePage} key={user.id} user={user} />)}
       </div>
     </>
   );
