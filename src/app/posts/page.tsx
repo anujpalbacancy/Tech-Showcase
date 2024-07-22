@@ -71,6 +71,7 @@ const UsersTable = () => {
         },
         onPaginationChange: setPaginationState,
         onGlobalFilterChange: setGlobalFilter,
+        manualPagination:true
     });
 
     if (isLoading) return <div>Loading users...</div>;
@@ -135,7 +136,7 @@ const UsersTable = () => {
                                 )}
                             </div>
                         </div>
-                        <div className='pagination mt-4'>
+                        <div className='pagination my-4'>
                             <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                                 {'<'}
                             </button>
@@ -146,6 +147,7 @@ const UsersTable = () => {
                                 {'>'}
                             </button>
                             <select
+                            className='px-2 py-1 ms-4 rounded-sm  text-black'
                                 value={table.getState().pagination.pageSize}
                                 onChange={(e) => {
                                     table.setPageSize(Number(e.target.value))
