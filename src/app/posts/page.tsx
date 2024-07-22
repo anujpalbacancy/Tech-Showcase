@@ -12,18 +12,21 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Post } from '@/types';
 
-const getUsers = async (): Promise<Post[] | []> => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-    return response.json();
+const getUsers = async ({ pageIndex, pageSize }: { pageIndex: number, pageSize: number }): Promise<{ posts: Post[], total: number }> => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${pageIndex + 1}&_limit=${pageSize}`);
+    const total = Number(response.headers.get('x-total-count')); // assuming the API returns the total count in headers
+    const posts = await response.json();
+    return { posts, total };
 };
 
 const UsersTable = () => {
     const [globalFilter, setGlobalFilter] = useState('');
-    const [paginationState, setPaginationState] = useState({ pageIndex: 0, pageSize: 10 });
+    const [paginationState, setPaginationState] = useState<{ pageIndex: number, pageSize: number }>({ pageIndex: 0, pageSize: 10 });
 
     const { isLoading, error, data } = useQuery({
-        queryKey: ['users'],
-        queryFn: getUsers,
+        queryKey: ['users', paginationState.pageIndex, paginationState.pageSize],
+        queryFn: () => getUsers(paginationState),
+        staleTime: 5000, // keep previous data for 5 seconds
     });
 
     const columns = [
@@ -55,12 +58,13 @@ const UsersTable = () => {
     ];
 
     const table = useReactTable({
-        data: data || [],
+        data: data ? data.posts : [],
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        pageCount: data ? Math.ceil(data.total / paginationState.pageSize) : -1,
         state: {
             globalFilter,
             pagination: paginationState,
@@ -97,7 +101,7 @@ const UsersTable = () => {
                                         {headerGroup.headers?.map((header) => (
                                             <div className='th cursor-pointer' onClick={header.column.getToggleSortingHandler()} style={{ width: header.getSize() }} key={header.id}>
                                                 {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                                                {header.column.getCanSort() &&  !header.isPlaceholder &&(
+                                                {header.column.getCanSort() && !header.isPlaceholder && (
                                                     <i className="fa-solid fa-sort ms-3"></i>
                                                 )}
                                                 <div
@@ -131,18 +135,17 @@ const UsersTable = () => {
                                 )}
                             </div>
                         </div>
-                        <div className='pagination mt-4 mb-5'>
-                            <button className='cursor-pointer' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                            <i className="fa-sharp fa-solid fa-arrow-left-long"></i>
+                        <div className='pagination mt-4'>
+                            <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                                {'<'}
                             </button>
                             <span className="mx-2">
                                 Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                             </span>
-                            <button className='cursor-pointer' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                            <i className="fa-sharp fa-solid fa-arrow-right-long"></i>
-
+                            <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                                {'>'}
                             </button>
-                            <select className='text-black px-2 py-1 ms-3 mb-5'
+                            <select
                                 value={table.getState().pagination.pageSize}
                                 onChange={(e) => {
                                     table.setPageSize(Number(e.target.value))
