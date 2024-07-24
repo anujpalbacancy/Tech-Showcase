@@ -23,10 +23,9 @@ const UsersTable = () => {
     const [globalFilter, setGlobalFilter] = useState('');
     const [paginationState, setPaginationState] = useState<{ pageIndex: number, pageSize: number }>({ pageIndex: 0, pageSize: 10 });
 
-    const { isLoading, error, data } = useQuery({
+    const { isLoading, error, data, isFetching, isStale } = useQuery({
         queryKey: ['users', paginationState.pageIndex, paginationState.pageSize],
         queryFn: () => getUsers(paginationState),
-        staleTime: 5000, // keep previous data for 5 seconds
     });
 
     const columns = [
@@ -71,7 +70,7 @@ const UsersTable = () => {
         },
         onPaginationChange: setPaginationState,
         onGlobalFilterChange: setGlobalFilter,
-        manualPagination:true
+        manualPagination: true
     });
 
     if (isLoading) return <div>Loading users...</div>;
@@ -147,7 +146,7 @@ const UsersTable = () => {
                                 {'>'}
                             </button>
                             <select
-                            className='px-2 py-1 ms-4 rounded-sm  text-black'
+                                className='px-2 py-1 ms-4 rounded-sm  text-black'
                                 value={table.getState().pagination.pageSize}
                                 onChange={(e) => {
                                     table.setPageSize(Number(e.target.value))
