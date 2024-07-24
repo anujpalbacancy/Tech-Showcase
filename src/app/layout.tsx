@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ReactQueryProvider from '../utils/providers/ReactQueryProvider';
 import './globals.css';
 
@@ -19,6 +20,8 @@ export default function RootLayout({
       </head>
       <body>
         <ReactQueryProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+
           <main>{children}</main>
         </ReactQueryProvider>
       </body>

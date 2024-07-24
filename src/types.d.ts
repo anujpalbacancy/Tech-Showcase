@@ -1,3 +1,4 @@
+
 interface Geo {
   lat: string;
   lng: string;
@@ -28,9 +29,27 @@ export interface User {
   company: Company;
 }
 
- export type Post = {
+
+
+export type Post = {
   userId: number;
   id: number;
   title: string;
   body: string;
+};
+
+export type FormFieldProps = {
+  type: string,
+  placeholder: string,
+  name: string,
+  register: any,
+  error: any,
+  valueAsNumber?: any
+}
+
+export type FormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
