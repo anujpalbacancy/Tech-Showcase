@@ -69,7 +69,7 @@ const UsersTable = () => {
         onGlobalFilterChange: setGlobalFilter,
     });
 
-    if (isLoading) return <div>Loading users...</div>;
+    if (isLoading) return <div>Loading Posts...</div>;
 
     if (error) return <div>Error: {error.message}</div>;
 

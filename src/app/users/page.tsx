@@ -11,7 +11,7 @@ import UserCard from '@/components/UserCard';
 import { useRouter } from 'next/navigation';
 
 const getUsers = async (): Promise<User[]> => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/users');
+  const response = await fetch('https://jsonplaceholder.typicode.com/users?limit=10');
   return response.json();
 };
 
@@ -26,7 +26,10 @@ const Users = () => {
     router.push(`/users/${user.id}`);
   }
 
-  if (isLoading) return <div>Loading users...</div>;
+  console.log({ isLoading, error, data });
+  
+
+  if (isLoading ) return <div>Loading users...</div>;
 
   if (error) return <div>Error: {error.message}</div>;
 

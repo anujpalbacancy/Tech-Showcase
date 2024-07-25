@@ -31,11 +31,11 @@ const UserProfile = () => {
 
   return (
     <>
-      <span className='cursor-pointer' onClick={() => router.push('/users')}><i className="fa-sharp text-4xl mt-12 ms-32 fa-solid fa-arrow-left-long"></i></span>
-      <div className='flex  justify-center mt-2 rounded-lg text-black'>
-        <div style={{ height: '75vh', width: '60vh' }} className='w-md bg-white shadow-lg'>
+      <span className='cursor-pointer' onClick={() => router.push('/users')}><i className="fa-sharp text-4xl mt-8 ms-32 fa-solid fa-arrow-left-long"></i></span>
+      <div className='flex  justify-center mt-2 mb-8 rounded-lg text-black'>
+        <div style={{ height: '88vh', width: '60vh' }} className='w-md bg-white shadow-lg'>
           <div className='flex justify-center mt-5'>
-            <div style={{ height: '150px', width: '150px' }} className="relative inline-flex text-3xl items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <div style={{ height: '120px', width: '120px' }} className="relative inline-flex text-3xl items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
               <span className="font-medium text-gray-600 dark:text-gray-300">{name.split(" ")?.map((str: string) => str.at(0)?.toLocaleUpperCase())?.join("")}</span>
             </div>
 
@@ -52,7 +52,7 @@ const UserProfile = () => {
 
           </div>
           <hr className='mt-3' />
-          <div className='text-xl text-black text-center mt-4 '>
+          <div className='text-xl font-bold text-black text-center mt-4 '>
             Address
           </div>
           <div className='m-3 p-2'>
@@ -65,7 +65,7 @@ const UserProfile = () => {
               <span>{address?.suite}</span>
             </div>
             <div>
-              <span>city : </span>
+              <span>City : </span>
               <span>{address?.city}</span>
             </div>
 
@@ -76,20 +76,20 @@ const UserProfile = () => {
           </div>
 
           <hr className='mt-3' />
-          <div className='text-xl text-black text-center mt-4 '>
+          <div className='text-xl font-bold text-black text-center mt-4 '>
             Geolocation
           </div>
 
-          <div className='m-3 p-2'>
+          <div className='m-2 p-2'>
 
             <div>
               <span>lat : </span>
-              <span>24.8918</span>
+              <span>{address?.geo?.lat}</span>
             </div>
 
             <div>
               <span>lng : </span>
-              <span>21.8984</span>
+              <span>{address?.geo?.lng}</span>
             </div>
           </div>
 
