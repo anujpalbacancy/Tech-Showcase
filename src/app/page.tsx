@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 
 const homePageCards = [{
   name: 'Users Page',
@@ -21,7 +22,7 @@ const homePageCards = [{
 }
 ]
 export default function Home() {
-  return <div className=" font-bold underline grid grid-cols-3 mt-8">
+  return <div className=" font-bold underline grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-8">
     {
       homePageCards.map((card) => {
         return <Link

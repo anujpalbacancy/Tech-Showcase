@@ -2,6 +2,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Header from '@/components/header';
 import ReactQueryProvider from '../utils/providers/ReactQueryProvider';
 import './globals.css';
+import React from 'react';
 
 export const metadata = {
   title: 'Next.js',

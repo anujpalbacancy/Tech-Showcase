@@ -22,10 +22,6 @@ const RegistrationForm = () => {
 
 
   const onSubmit = (data: FormData) => {
-    if (data.password !== data.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
     console.log('Form Submitted:', data);
     reset(); 
   };

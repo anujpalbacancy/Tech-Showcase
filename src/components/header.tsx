@@ -1,5 +1,5 @@
 'use client';
-import { logo } from '@/icons/icons';
+import { LogoIcon } from '@/icons/icons';
 import Link from 'next/link';
 import React from 'react';
 
@@ -22,7 +22,7 @@ const Header = () => {
                 <div className="flex justify-between mx-2 items-center w-full sm:w-auto text-center sm:text-left mx-auto sm:mx-0">
                     <span className=''>
                         <Link className='inline-block' href='/'>
-                            {logo}
+                        <LogoIcon/>
                         </Link>
                     </span>
                     <div className="sm:hidden flex justify-end">
