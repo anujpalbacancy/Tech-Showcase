@@ -6,14 +6,16 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
 const getUserById = async (userId: number) => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
-  const data = await res.json()
-  return data
-}
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${userId}`,
+  );
+  const data = await res.json();
+  return data;
+};
 
 const UserProfile = () => {
-  const { userId } = useParams()
-  const router = useRouter()
+  const { userId } = useParams();
+  const router = useRouter();
   const { isLoading, error, data } = useQuery({
     queryKey: ['userById', userId],
     queryFn: () => getUserById(Number(userId)),
@@ -25,37 +27,43 @@ const UserProfile = () => {
 
   if (!data) return <div>User not found</div>;
 
-  const { name, username, email, phone, website, address, company } = data
+  const { name, username, email, phone, website, address, company } = data;
   console.log({ name, username, email, phone, website, address, company });
-
 
   return (
     <>
-      <span className='cursor-pointer' onClick={() => router.push('/users')}><i className="fa-sharp text-4xl mt-8 ms-32 fa-solid fa-arrow-left-long"></i></span>
-      <div className='flex  justify-center mt-2 mb-8 rounded-lg text-black'>
-        <div style={{ height: '88vh', width: '60vh' }} className='w-md bg-white shadow-lg'>
-          <div className='flex justify-center mt-5'>
-            <div style={{ height: '120px', width: '120px' }} className="relative inline-flex text-3xl items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-              <span className="font-medium text-gray-600 dark:text-gray-300">{name.split(" ")?.map((str: string) => str.at(0)?.toLocaleUpperCase())?.join("")}</span>
+      <span className="cursor-pointer" onClick={() => router.push('/users')}>
+        <i className="fa-sharp fa-solid fa-arrow-left-long ms-32 mt-8 text-4xl"></i>
+      </span>
+      <div className="mb-8 mt-2 flex justify-center rounded-lg text-black">
+        <div
+          style={{ height: '88vh', width: '60vh' }}
+          className="w-md bg-white shadow-lg"
+        >
+          <div className="mt-5 flex justify-center">
+            <div
+              style={{ height: '120px', width: '120px' }}
+              className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-100 text-3xl dark:bg-gray-600"
+            >
+              <span className="font-medium text-gray-600 dark:text-gray-300">
+                {name
+                  .split(' ')
+                  ?.map((str: string) => str.at(0)?.toLocaleUpperCase())
+                  ?.join('')}
+              </span>
             </div>
-
           </div>
-          <div className='text-3xl text-black text-center mt-4 font-bold'>
+          <div className="mt-4 text-center text-3xl font-bold text-black">
             {name}
           </div>
 
-          <div className=' text-black text-center mt-3'>
-            @{username}
-          </div>
-          <div>
-
-
-          </div>
-          <hr className='mt-3' />
-          <div className='text-xl font-bold text-black text-center mt-4 '>
+          <div className="mt-3 text-center text-black">@{username}</div>
+          <div></div>
+          <hr className="mt-3" />
+          <div className="mt-4 text-center text-xl font-bold text-black">
             Address
           </div>
-          <div className='m-3 p-2'>
+          <div className="m-3 p-2">
             <div>
               <span>Street : </span>
               <span>{address.street}</span>
@@ -75,13 +83,12 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <hr className='mt-3' />
-          <div className='text-xl font-bold text-black text-center mt-4 '>
+          <hr className="mt-3" />
+          <div className="mt-4 text-center text-xl font-bold text-black">
             Geolocation
           </div>
 
-          <div className='m-2 p-2'>
-
+          <div className="m-2 p-2">
             <div>
               <span>lat : </span>
               <span>{address?.geo?.lat}</span>
@@ -108,12 +115,9 @@ const UserProfile = () => {
           </div>
    
         </div> */}
-
         </div>
       </div>
     </>
-
-
   );
 };
 

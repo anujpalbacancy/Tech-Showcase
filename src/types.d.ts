@@ -1,4 +1,3 @@
-
 interface Geo {
   lat: string;
   lng: string;
@@ -29,8 +28,6 @@ export interface User {
   company: Company;
 }
 
-
-
 export type Post = {
   userId: number;
   id: number;
@@ -39,17 +36,21 @@ export type Post = {
 };
 
 export type FormFieldProps = {
-  type: string,
-  placeholder: string,
-  name: string,
-  register: any,
-  error: any,
-  valueAsNumber?: any
-}
+  type: string;
+  placeholder: string;
+  name: string;
+  register: UseFormRegister<T>;
+  error: Errors[keyof T] | undefined;
+  valueAsNumber?: boolean;
+};
 
 export type FormData = {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
+};
+export type Errors = {
+  /* eslint-disable-next-line no-unused-vars */
+  [key in keyof FormData]?: FieldError;
 };

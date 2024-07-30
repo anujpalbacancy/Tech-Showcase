@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -177,36 +177,39 @@
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a>
 <a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,16 +293,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 import FormField from '@/components/FormField';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@/schema/UserSchema';
 import { FormData } from '@/types';
-&nbsp;
-&nbsp;
 &nbsp;
 const RegistrationForm = () =&gt; {
   const {
@@ -309,14 +311,15 @@ const RegistrationForm = () =&gt; {
     reset,
     setError,
   } = useForm&lt;FormData&gt;({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(UserSchema),
   });
 &nbsp;
-&nbsp;
   const onSubmit = (data: FormData) =&gt; {
+    console.log('called');
+&nbsp;
     console.log('Form Submitted:', data);
-    reset(); 
+    reset();
   };
 &nbsp;
   const handleClear = () =&gt; {
@@ -324,10 +327,13 @@ const RegistrationForm = () =&gt; {
   };
 &nbsp;
   return (
-    &lt;form className="w-full max-w-sm mx-auto mt-24 p-10 rounded-md bg-slate-50" onSubmit={handleSubmit(onSubmit)}&gt;
+    &lt;form
+      className="mx-auto mt-24 w-full max-w-sm rounded-md bg-slate-50 p-10"
+      onSubmit={handleSubmit(onSubmit)}
+    &gt;
       &lt;div className="mb-4"&gt;
         &lt;label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="name"
         &gt;
           Name
@@ -342,7 +348,7 @@ const RegistrationForm = () =&gt; {
       &lt;/div&gt;
       &lt;div className="mb-4"&gt;
         &lt;label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="email"
         &gt;
           Email
@@ -357,7 +363,7 @@ const RegistrationForm = () =&gt; {
       &lt;/div&gt;
       &lt;div className="mb-6"&gt;
         &lt;label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="password"
         &gt;
           Password
@@ -372,7 +378,7 @@ const RegistrationForm = () =&gt; {
       &lt;/div&gt;
       &lt;div className="mb-6"&gt;
         &lt;label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="confirmPassword"
         &gt;
           Confirm Password
@@ -388,13 +394,13 @@ const RegistrationForm = () =&gt; {
       &lt;div className="flex items-center justify-between"&gt;
         &lt;button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
         &gt;
           Submit
         &lt;/button&gt;
         &lt;button
           type="button"
-          className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline rounded bg-gray-400 px-4 py-2 font-bold text-white hover:bg-gray-500 focus:outline-none"
           onClick={handleClear}
         &gt;
           Clear
@@ -412,7 +418,7 @@ export default RegistrationForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-26T10:02:46.360Z
+                at 2024-07-30T10:07:50.771Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

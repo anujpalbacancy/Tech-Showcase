@@ -1,12 +1,10 @@
 'use client';
 import FormField from '@/components/FormField';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSchema } from '@/schema/UserSchema';
-import { FormData } from '@/types';
-
-
+import { Errors, FormData } from '@/types';
 
 const RegistrationForm = () => {
   const {
@@ -14,16 +12,16 @@ const RegistrationForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    setError,
   } = useForm<FormData>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(UserSchema),
   });
 
-
   const onSubmit = (data: FormData) => {
+    console.log('called');
+
     console.log('Form Submitted:', data);
-    reset(); 
+    reset();
   };
 
   const handleClear = () => {
@@ -31,10 +29,13 @@ const RegistrationForm = () => {
   };
 
   return (
-    <form className="w-full max-w-sm mx-auto mt-24 p-10 rounded-md bg-slate-50" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="mx-auto mt-24 w-full max-w-sm rounded-md bg-slate-50 p-10"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="mb-4">
         <label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="name"
         >
           Name
@@ -44,12 +45,12 @@ const RegistrationForm = () => {
           placeholder="Enter your name"
           name="name"
           register={register}
-          error={errors.name}
+          error={(errors?.name as Errors['name']) || null}
         />
       </div>
       <div className="mb-4">
         <label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="email"
         >
           Email
@@ -59,12 +60,12 @@ const RegistrationForm = () => {
           placeholder="Enter your email address"
           name="email"
           register={register}
-          error={errors.email}
+          error={(errors.email as Errors['email']) || null}
         />
       </div>
       <div className="mb-6">
         <label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="password"
         >
           Password
@@ -74,12 +75,12 @@ const RegistrationForm = () => {
           placeholder="Enter your password"
           name="password"
           register={register}
-          error={errors.password}
+          error={(errors.password as Errors['password']) || null}
         />
       </div>
       <div className="mb-6">
         <label
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="mb-2 block text-sm font-bold text-gray-700"
           htmlFor="confirmPassword"
         >
           Confirm Password
@@ -89,19 +90,19 @@ const RegistrationForm = () => {
           placeholder="Confirm your password"
           name="confirmPassword"
           register={register}
-          error={errors.confirmPassword}
+          error={(errors.confirmPassword as Errors['confirmPassword']) || null}
         />
       </div>
       <div className="flex items-center justify-between">
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
         >
           Submit
         </button>
         <button
           type="button"
-          className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="focus:shadow-outline rounded bg-gray-400 px-4 py-2 font-bold text-white hover:bg-gray-500 focus:outline-none"
           onClick={handleClear}
         >
           Clear

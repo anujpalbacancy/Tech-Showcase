@@ -3,6 +3,7 @@ import Header from '@/components/header';
 import ReactQueryProvider from '../utils/providers/ReactQueryProvider';
 import './globals.css';
 import React from 'react';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Next.js',
@@ -17,8 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://kit.fontawesome.com/a95ba240bf.js" ></script>
-
+        <Script src="https://kit.fontawesome.com/a95ba240bf.js"></Script>
       </head>
       <body>
         <ReactQueryProvider>

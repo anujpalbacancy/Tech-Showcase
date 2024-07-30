@@ -1,33 +1,39 @@
 import { User } from '@/types';
 import React from 'react';
 
-const UserCard = (props: { user: User , onClick: (user: User) => void}) => {
+interface UserCardProps {
+  user: User;
+  /* eslint-disable-next-line no-unused-vars */
+  onClick: (user: User) => void;
+}
+
+const UserCard: React.FC<UserCardProps> = ({ user, onClick }) => {
   return (
-    <div key={props.user.id} onClick={() => props.onClick(props.user)}>
+    <div key={user.id} onClick={() => onClick(user)}>
       <a
         href="#"
-        className="mt-4 block max-w-sm rounded-lg bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 h-56 mx-2"
+        className="mx-2 mt-4 block h-56 max-w-sm rounded-lg bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
       >
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {props?.user?.name}
+          {user?.name}
         </h5>
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props?.user?.website}
+          {user?.website}
         </p>
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props?.user?.company?.catchPhrase}
-        </p>
-
-        <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props?.user?.email}
+          {user?.company?.catchPhrase}
         </p>
 
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props?.user?.phone}
+          {user?.email}
         </p>
 
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props?.user?.username}
+          {user?.phone}
+        </p>
+
+        <p className="font-normal text-gray-700 dark:text-gray-400">
+          {user?.username}
         </p>
       </a>
     </div>
