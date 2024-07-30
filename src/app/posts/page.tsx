@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import {
   CellContext,
+  Row,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -11,6 +12,7 @@ import {
 } from '@tanstack/react-table';
 import { useQuery } from '@tanstack/react-query';
 import { Post } from '@/types';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const getUsers = async (): Promise<Post[] | []> => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -23,6 +25,8 @@ const UsersTable = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+
+  const debouncedGlobalFilter = useDebounce(globalFilter, 300);
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['users'],
@@ -57,6 +61,26 @@ const UsersTable = () => {
     },
   ];
 
+  const globalFilterFn = (
+    row: Row<Post>,
+    columnId: string,
+    filterValue: string,
+  ) => {
+    const searchValue = filterValue.toLowerCase();
+    const titleMatches = row.original.title.toLowerCase().includes(searchValue);
+    const bodyMatches = row.original.body
+      .toLowerCase()
+      ?.replace(/\s+/g, ' ')
+      .trim()
+      .includes(searchValue);
+    const userIdMatches = row.original.userId.toString().includes(searchValue);
+    const idMatches = row.original.id.toString().includes(searchValue);
+    if (columnId === 'body') {
+      console.log({ searchValue, bodyMatches, value: row.original.body });
+    }
+    return titleMatches || bodyMatches || userIdMatches || idMatches;
+  };
+
   const table = useReactTable({
     data: data || [],
     columns,
@@ -65,11 +89,12 @@ const UsersTable = () => {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: {
-      globalFilter,
+      globalFilter: debouncedGlobalFilter, // Use the debounced filter value
       pagination: paginationState,
     },
     onPaginationChange: setPaginationState,
     onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn,
   });
 
   if (isLoading) return <div>Loading Posts...</div>;
@@ -81,7 +106,7 @@ const UsersTable = () => {
   return (
     <>
       <div className="mt-10 text-center text-3xl font-extrabold">
-        Users Table
+        Posts Table
       </div>
       <div className="mt-6 flex justify-center">
         <input
