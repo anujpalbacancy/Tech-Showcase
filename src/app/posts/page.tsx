@@ -19,7 +19,7 @@ const getUsers = async (): Promise<Post[] | []> => {
   return response.json();
 };
 
-const UsersTable = () => {
+const PostsTable = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [paginationState, setPaginationState] = useState({
     pageIndex: 0,
@@ -124,8 +124,9 @@ const UsersTable = () => {
               <div className="thead">
                 {table.getHeaderGroups()?.map((headerGroup) => (
                   <div className="tr" key={headerGroup.id}>
-                    {headerGroup.headers?.map((header) => (
+                    {headerGroup.headers?.map((header, index) => (
                       <div
+                        data-testid={`resizable-column-${index + 1}`}
                         className="th cursor-pointer"
                         onClick={header.column.getToggleSortingHandler()}
                         style={{ width: header.getSize() }}
@@ -142,6 +143,7 @@ const UsersTable = () => {
                             <i className="fa-solid fa-sort ms-3"></i>
                           )}
                         <div
+                          data-testid={`resizer-${index + 1}`}
                           onMouseDown={header.getResizeHandler()}
                           onTouchStart={header.getResizeHandler()}
                           className={`resizer ${
@@ -185,9 +187,11 @@ const UsersTable = () => {
             </div>
             <div className="pagination mb-5 mt-4">
               <button
+                data-test
                 className="cursor-pointer"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                data-testid="prev-page-button"
               >
                 <i className="fa-sharp fa-solid fa-arrow-left-long"></i>
               </button>
@@ -199,6 +203,7 @@ const UsersTable = () => {
                 className="cursor-pointer"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                data-testid="next-page-button"
               >
                 <i className="fa-sharp fa-solid fa-arrow-right-long"></i>
               </button>
@@ -223,4 +228,4 @@ const UsersTable = () => {
   );
 };
 
-export default UsersTable;
+export default PostsTable;
