@@ -9,24 +9,20 @@ import React, {
   SetStateAction,
 } from 'react';
 
-// Define the shape of the context data
 interface SelectedLinkContextType {
   selectedLink: string;
   setSelectedLink: Dispatch<SetStateAction<string>>;
 }
 
-// Create the context with default values
 const SelectedLinkContext = createContext<SelectedLinkContextType>({
   selectedLink: '',
   setSelectedLink: () => {},
 });
 
-// Define props for the Provider component
 interface SelectedLinkProviderProps {
   children: ReactNode;
 }
 
-// Create the Provider component
 const SelectedLinkProvider: FC<SelectedLinkProviderProps> = ({ children }) => {
   const [selectedLink, setSelectedLink] = useState<string>('home');
 
@@ -37,7 +33,6 @@ const SelectedLinkProvider: FC<SelectedLinkProviderProps> = ({ children }) => {
   );
 };
 
-// Custom hook for using the context
 const useSelectedLink = () => {
   const context = useContext(SelectedLinkContext);
   if (!context) {

@@ -1,5 +1,3 @@
-// PostsTable.test.tsx
-
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -116,11 +114,9 @@ describe('PostsTable', () => {
   it('handles pagination correctly', async () => {
     renderWithClient(<PostsTable />);
 
-    // Access the previous and next page buttons using data-testid
     const prevPageButton = screen.getByTestId('prev-page-button');
     const nextPageButton = screen.getByTestId('next-page-button');
 
-    // Simulate clicking the next page button
     fireEvent.click(nextPageButton);
 
     await waitFor(() => {

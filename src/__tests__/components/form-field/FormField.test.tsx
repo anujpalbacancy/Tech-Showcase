@@ -1,11 +1,10 @@
-import React from 'react'; // Ensure React is imported
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FormField from '@/components/FormField';
 import { useForm } from 'react-hook-form';
 import { FormFieldProps } from '@/types';
 
-// Wrapper component to use the useForm hook
 const FormFieldWrapper: React.FC<{
   props?: Omit<FormFieldProps, 'register'>;
 }> = ({ props }) => {

@@ -1,5 +1,4 @@
-// app/users/[userId]/page.js
-'use client'; // Ensure this component is client-side only
+'use client';
 
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
