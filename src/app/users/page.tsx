@@ -1,3 +1,4 @@
+'use server';
 import React from 'react';
 import { User } from '@/types';
 import UsersCard from './page.client';
