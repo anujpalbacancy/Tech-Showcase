@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import RegistrationForm from '@/app/form-validation/page';
 import { FormFieldProps } from '@/types';
 
-// Mock the FormField component
 jest.mock('../../../components/FormField', () => ({
   __esModule: true,
   default: ({ type, placeholder, name, register, error }: FormFieldProps) => (

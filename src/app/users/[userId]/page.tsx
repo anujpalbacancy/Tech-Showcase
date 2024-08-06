@@ -4,6 +4,7 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import BackButton from '@/components/BackButton';
 
 const getUserById = async (userId: number) => {
   const res = await fetch(
@@ -32,9 +33,11 @@ const UserProfile = () => {
 
   return (
     <>
-      <span className="cursor-pointer" onClick={() => router.push('/users')}>
-        <i className="fa-sharp fa-solid fa-arrow-left-long ms-32 mt-8 text-4xl"></i>
-      </span>
+      <BackButton
+        onClick={() => router.push('/users')}
+        iconClass="fa-sharp fa-solid fa-arrow-left-long"
+        additionalClasses="ms-32 mt-8 text-4xl"
+      />
       <div className="mb-8 mt-2 flex justify-center rounded-lg text-black">
         <div
           style={{ height: '88vh', width: '60vh' }}

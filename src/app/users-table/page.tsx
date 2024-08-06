@@ -11,6 +11,9 @@ import {
 } from '@tanstack/react-table';
 import { useQuery } from '@tanstack/react-query';
 import { User } from '@/types';
+import { useRouter } from 'next/navigation';
+import { useSelectedLink } from '@/context/ActiveLinkContext';
+import BackButton from '@/components/BackButton';
 
 const getUsers = async (): Promise<User[] | []> => {
   const response = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -19,6 +22,8 @@ const getUsers = async (): Promise<User[] | []> => {
 
 const UsersTable = () => {
   const [globalFilter, setGlobalFilter] = useState('');
+  const router = useRouter();
+  const { setSelectedLink } = useSelectedLink();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['users'],
@@ -98,6 +103,14 @@ const UsersTable = () => {
 
   return (
     <>
+      <BackButton
+        onClick={() => {
+          setSelectedLink('home');
+          router.push('/');
+        }}
+        iconClass="fa-sharp fa-solid fa-arrow-left-long"
+        additionalClasses="ms-32 mt-8 text-4xl"
+      />
       <div className="mt-10 text-center text-3xl font-extrabold">
         Users Table
       </div>

@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import PostsTable from '@/app/posts/page';
 
-// Mock the useQuery hook
 jest.mock('@tanstack/react-query', () => ({
   ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
@@ -108,10 +107,9 @@ describe('PostsTable', () => {
 
     // Simulate clicking the next page button
     fireEvent.click(nextPageButton);
-    console.log({ screen: screen.debug() });
 
     await waitFor(() => {
-      expect(screen.getByText('Page 2 of 2')).toBeInTheDocument(); // Adjust based on actual page count
+      expect(screen.getByText('Page 2 of 2')).toBeInTheDocument();
     });
 
     fireEvent.click(prevPageButton);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-// import '@testing-library/jest-dom/extend-expect';
 import RegistrationForm from '@/app/form-validation/page';
 
 describe('RegistrationForm', () => {
@@ -13,7 +12,7 @@ describe('RegistrationForm', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText('Enter your password'),
-    ).toBeInTheDocument(); // Optional for username with placeholder
+    ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
@@ -45,7 +44,6 @@ describe('RegistrationForm', () => {
   it('submits form when values are valid', async () => {
     render(<RegistrationForm />);
 
-    // Assuming username field has a placeholder
     fireEvent.input(screen.getByPlaceholderText('Enter your name'), {
       target: { value: 'testuser' },
     });
@@ -69,7 +67,6 @@ describe('RegistrationForm', () => {
     fireEvent.input(screen.getByPlaceholderText('Enter your email address'), {
       target: { value: 'testuser@example.com' },
     });
-    // fireEvent.submit(screen.getByRole('button', { name: /submit/i }));
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
     const name = screen.getByPlaceholderText(
       'Enter your name',
@@ -107,7 +104,6 @@ describe('RegistrationForm', () => {
         'Enter your email address',
       ) as HTMLInputElement;
 
-      // Check if form fields are cleared
       expect(nameInput.value).toBe('');
       expect(emailInput.value).toBe('');
     });

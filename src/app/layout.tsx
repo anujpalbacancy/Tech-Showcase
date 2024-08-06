@@ -4,6 +4,7 @@ import ReactQueryProvider from '../utils/providers/ReactQueryProvider';
 import './globals.css';
 import React from 'react';
 import Script from 'next/script';
+import { SelectedLinkProvider } from '@/context/ActiveLinkContext';
 
 export const metadata = {
   title: 'Next.js',
@@ -21,11 +22,13 @@ export default function RootLayout({
         <Script src="https://kit.fontawesome.com/a95ba240bf.js"></Script>
       </head>
       <body>
-        <ReactQueryProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Header />
-          <main>{children}</main>
-        </ReactQueryProvider>
+        <SelectedLinkProvider>
+          <ReactQueryProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Header />
+            <main>{children}</main>
+          </ReactQueryProvider>
+        </SelectedLinkProvider>
       </body>
     </html>
   );

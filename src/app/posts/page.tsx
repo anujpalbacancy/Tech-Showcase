@@ -13,6 +13,10 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Post } from '@/types';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useSelectedLink } from '@/context/ActiveLinkContext';
+
+import { useRouter } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 const getUsers = async (): Promise<Post[] | []> => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -25,6 +29,8 @@ const PostsTable = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const { setSelectedLink } = useSelectedLink();
+  const router = useRouter();
 
   const debouncedGlobalFilter = useDebounce(globalFilter, 300);
 
@@ -105,6 +111,14 @@ const PostsTable = () => {
 
   return (
     <>
+      <BackButton
+        onClick={() => {
+          setSelectedLink('home');
+          router.push('/');
+        }}
+        iconClass="fa-sharp fa-solid fa-arrow-left-long"
+        additionalClasses="ms-32 mt-8 text-4xl"
+      />
       <div className="mt-10 text-center text-3xl font-extrabold">
         Posts Table
       </div>

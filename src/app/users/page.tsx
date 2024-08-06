@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '@/types';
-import UserCardWrapper from './page.client';
+import UsersCard from './page.client';
 
 const getUsers = async (): Promise<User[]> => {
   const response = await fetch(
@@ -14,12 +14,7 @@ const Users = async () => {
 
   return (
     <>
-      <h3 className="mb-2 mt-5 text-center text-4xl font-extrabold">Users</h3>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data?.map((user: User) => (
-          <UserCardWrapper key={user.id} user={user} />
-        ))}
-      </div>
+      <UsersCard users={data} />
     </>
   );
 };
