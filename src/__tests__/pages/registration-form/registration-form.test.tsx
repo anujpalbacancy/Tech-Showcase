@@ -1,7 +1,24 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RegistrationForm from '@/app/form-validation/page';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SelectedLinkProvider } from '@/context/ActiveLinkContext';
 
+const mockSetSelectedLink = jest.fn();
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
+jest.mock('../../../context/ActiveLinkContext', () => ({
+  ...jest.requireActual('../../../context/ActiveLinkContext'),
+  useSelectedLink: jest.fn(() => ({
+    selectedLink: 'home',
+    setSelectedLink: mockSetSelectedLink,
+  })),
+}));
 describe('RegistrationForm', () => {
   it('renders the form with input fields and submit button', () => {
     render(<RegistrationForm />);
@@ -107,5 +124,22 @@ describe('RegistrationForm', () => {
       expect(nameInput.value).toBe('');
       expect(emailInput.value).toBe('');
     });
+  });
+
+  it('triggers onClick method of BackButton', () => {
+    const renderWithClient = (ui: React.ReactElement) => {
+      const queryClient = new QueryClient();
+      return render(
+        <QueryClientProvider client={queryClient}>
+          <SelectedLinkProvider>{ui}</SelectedLinkProvider>
+        </QueryClientProvider>,
+      );
+    };
+    renderWithClient(<RegistrationForm />);
+    const backButton = screen.getByTestId('back-button');
+    fireEvent.click(backButton);
+
+    expect(mockSetSelectedLink).toHaveBeenCalledWith('home');
+    expect(mockPush).toHaveBeenCalledWith('/');
   });
 });

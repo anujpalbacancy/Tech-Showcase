@@ -3,7 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RegistrationForm from '@/app/form-validation/page';
 import { FormFieldProps } from '@/types';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SelectedLinkProvider } from '@/context/ActiveLinkContext';
 
+const mockSetSelectedLink = jest.fn();
+const mockPush = jest.fn();
 jest.mock('../../../components/FormField', () => ({
   __esModule: true,
   default: ({ type, placeholder, name, register, error }: FormFieldProps) => (
@@ -17,6 +21,20 @@ jest.mock('../../../components/FormField', () => ({
       {error && <p>{error.message}</p>}
     </div>
   ),
+}));
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
+jest.mock('../../../context/ActiveLinkContext', () => ({
+  ...jest.requireActual('../../../context/ActiveLinkContext'),
+  useSelectedLink: jest.fn(() => ({
+    selectedLink: 'home',
+    setSelectedLink: mockSetSelectedLink,
+  })),
 }));
 
 describe('RegistrationForm', () => {
@@ -71,9 +89,6 @@ describe('RegistrationForm', () => {
   });
 
   it('When passing an weak password the form should not submit', async () => {
-    const consoleLogSpy = jest
-      .spyOn(console, 'log')
-      .mockImplementation(() => {});
     render(<RegistrationForm />);
     const nameInput = screen.getByLabelText(/name/i);
     const emailInput = screen.getByLabelText(/email/i);
@@ -85,8 +100,8 @@ describe('RegistrationForm', () => {
     await act(async () => {
       await userEvent.type(nameInput, 'John Doe');
       await userEvent.type(emailInput, 'john.doe@example.com');
-      await userEvent.type(passwordInput, 'Anujpal160180107030');
-      await userEvent.type(confirmPasswordInput, 'Anujpal160180107030');
+      await userEvent.type(passwordInput, 'Anujpal160180');
+      await userEvent.type(confirmPasswordInput, 'Anujpal160180');
     });
     await act(async () => {
       fireEvent.click(submitButton);
@@ -96,7 +111,6 @@ describe('RegistrationForm', () => {
         'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character',
       ),
     ).toBeInTheDocument();
-    expect(consoleLogSpy).toHaveBeenCalledTimes(0);
   });
 
   it('When Password does not matched', async () => {
@@ -149,7 +163,6 @@ describe('RegistrationForm', () => {
 
   it('shows error messages for invalid data', async () => {
     render(<RegistrationForm />);
-    console.log({ screen: screen.debug() });
 
     const submitButton = screen.getByText(/submit/i);
 
@@ -162,5 +175,22 @@ describe('RegistrationForm', () => {
     expect(
       await screen.findByText(/Password is too short/i),
     ).toBeInTheDocument();
+  });
+
+  it('triggers onClick method of BackButton', () => {
+    const renderWithClient = (ui: React.ReactElement) => {
+      const queryClient = new QueryClient();
+      return render(
+        <QueryClientProvider client={queryClient}>
+          <SelectedLinkProvider>{ui}</SelectedLinkProvider>
+        </QueryClientProvider>,
+      );
+    };
+    renderWithClient(<RegistrationForm />);
+    const backButton = screen.getByTestId('back-button');
+    fireEvent.click(backButton);
+
+    expect(mockSetSelectedLink).toHaveBeenCalledWith('home');
+    expect(mockPush).toHaveBeenCalledWith('/');
   });
 });

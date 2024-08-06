@@ -27,7 +27,6 @@ describe('FormField', () => {
         }}
       />,
     );
-    console.log({ screen: screen.debug() });
 
     const input = screen.getByPlaceholderText('Enter text');
     expect(input).toBeInTheDocument();

@@ -81,9 +81,7 @@ const PostsTable = () => {
       .includes(searchValue);
     const userIdMatches = row.original.userId.toString().includes(searchValue);
     const idMatches = row.original.id.toString().includes(searchValue);
-    if (columnId === 'body') {
-      console.log({ searchValue, bodyMatches, value: row.original.body });
-    }
+
     return titleMatches || bodyMatches || userIdMatches || idMatches;
   };
 
@@ -223,6 +221,7 @@ const PostsTable = () => {
               </button>
               <select
                 className="mb-5 ms-3 px-2 py-1 text-black"
+                data-testid="page-size-select"
                 value={table.getState().pagination.pageSize}
                 onChange={(e) => {
                   table.setPageSize(Number(e.target.value));

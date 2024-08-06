@@ -12,7 +12,11 @@ const BackButton: React.FC<BackButtonProps> = ({
   additionalClasses = '',
 }) => {
   return (
-    <span className={`cursor-pointer ${additionalClasses}`} onClick={onClick}>
+    <span
+      data-testid="back-button"
+      className={`cursor-pointer ${additionalClasses}`}
+      onClick={onClick}
+    >
       <i className={iconClass}></i>
     </span>
   );

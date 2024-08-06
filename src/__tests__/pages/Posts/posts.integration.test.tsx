@@ -4,20 +4,37 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import { SelectedLinkProvider } from '../../../context/ActiveLinkContext';
 import { useQuery } from '@tanstack/react-query';
-import PostsTable from '@/app/posts/page';
+import PostsTable from '../../../app/posts/page';
 
+const mockSetSelectedLink = jest.fn();
+const mockPush = jest.fn();
 jest.mock('@tanstack/react-query', () => ({
   ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
+}));
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
+jest.mock('../../../context/ActiveLinkContext', () => ({
+  ...jest.requireActual('../../../context/ActiveLinkContext'),
+  useSelectedLink: jest.fn(() => ({
+    selectedLink: 'home',
+    setSelectedLink: mockSetSelectedLink,
+  })),
 }));
 
 const queryClient = new QueryClient();
 
 const renderWithClient = (ui: React.ReactElement) => {
   return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
+    <QueryClientProvider client={queryClient}>
+      <SelectedLinkProvider>{ui}</SelectedLinkProvider>
+    </QueryClientProvider>,
   );
 };
 
@@ -83,9 +100,7 @@ describe('PostsTable', () => {
   it('filters the table data based on search input', async () => {
     renderWithClient(<PostsTable />);
     const searchInput = screen.getByPlaceholderText('Search...');
-
     fireEvent.change(searchInput, { target: { value: 'Test Body 1' } });
-
     await waitFor(() => {
       expect(screen.getByText('Test Title 1')).toBeInTheDocument();
       expect(screen.queryByText('Test Title 2')).not.toBeInTheDocument();
@@ -117,5 +132,28 @@ describe('PostsTable', () => {
     await waitFor(() => {
       expect(screen.getByText('Page 1 of 2')).toBeInTheDocument();
     });
+  });
+
+  it('triggers onClick method of BackButton', () => {
+    renderWithClient(<PostsTable />);
+    const backButton = screen.getByTestId('back-button');
+    fireEvent.click(backButton);
+
+    expect(mockSetSelectedLink).toHaveBeenCalledWith('home');
+    expect(mockPush).toHaveBeenCalledWith('/');
+  });
+
+  it('changes page size when a new value is selected from the dropdown', async () => {
+    renderWithClient(<PostsTable />);
+
+    const pageSizeDropdown: HTMLSelectElement =
+      screen.getByTestId('page-size-select');
+
+    fireEvent.change(pageSizeDropdown, { target: { value: '20' } });
+
+    await waitFor(() => {
+      expect(pageSizeDropdown.value).toBe('20');
+    });
+    expect(screen.getByText('Show 20')).toBeInTheDocument();
   });
 });

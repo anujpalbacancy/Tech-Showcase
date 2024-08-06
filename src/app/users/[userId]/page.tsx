@@ -28,8 +28,7 @@ const UserProfile = () => {
 
   if (!data) return <div>User not found</div>;
 
-  const { name, username, email, phone, website, address, company } = data;
-  console.log({ name, username, email, phone, website, address, company });
+  const { name, username, address } = data;
 
   return (
     <>
