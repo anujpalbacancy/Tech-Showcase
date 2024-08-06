@@ -14,12 +14,12 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       screens: {
-        'xs': '480px',  // Custom breakpoint for extra small devices
-        'sm': '640px',  // Default small breakpoint
-        'md': '768px',  // Default medium breakpoint
-        'lg': '1024px', // Default large breakpoint
-        'xl': '1280px', // Default extra large breakpoint
-        '2xl': '1536px' // Default 2xl breakpoint
+        'xs': '480px',  // extra small 
+        'sm': '640px',  //  small device
+        'md': '768px',  // medium 
+        'lg': '1024px', // large 
+        'xl': '1280px', // extra large
+        '2xl': '1536px' // 2xl 
       },
     },
   },
