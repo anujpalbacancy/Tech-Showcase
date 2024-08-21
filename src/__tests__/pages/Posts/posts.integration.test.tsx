@@ -75,14 +75,14 @@ describe('PostsTable', () => {
     expect(screen.getByText('Test Title 2')).toBeInTheDocument();
   });
 
-  it('displays loading state', () => {
+  it('displays loading state', async () => {
     (useQuery as jest.Mock).mockReturnValue({
       data: [],
       isLoading: true,
       error: null,
     });
     renderWithClient(<PostsTable />);
-    expect(screen.getByText('Loading Posts...')).toBeInTheDocument();
+    expect(await screen.findByText('Loading Posts...')).toBeInTheDocument();
   });
 
   it('displays error state', () => {
